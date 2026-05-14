@@ -17,13 +17,10 @@ import java.util.List;
 @Slf4j
 @Transactional(readOnly = true)
 public class ProductService {
-    private final ProductMapper productMapper;
 
     private final ProductRepository productRepository;
     private final ProductMapper mapper;
 
-    // readOnly=true : optimisation — pas de dirty checking Hibernate
-    @Transactional(readOnly = true)
     public List<ProductDto> findAll() {
         log.info("findAll products");
         return productRepository.findAll()
@@ -33,19 +30,16 @@ public class ProductService {
     }
 
     public ProductDto findById(Long id) {
-        return productRepository.findById(id).map(productMapper::toDto)
+        log.info("findById product id={}", id);
+        return productRepository.findById(id)
+                .map(mapper::toDto)
                 .orElseThrow(() -> new IllegalArgumentException("Product not found: " + id));
     }
 
     @Transactional
-    public ProductDto create(CreateProductRequest request) {
-        ProductEntity entity = ProductEntity.builder()
-                .name(request.name())
-                .description(request.description())
-                .price(request.price())
-                .stock(request.stock())
-                .build();
-        ProductEntity saved = productRepository.save(entity);
+    public ProductDto create(CreateProductRequest dto) {
+        ProductEntity product = mapper.toEntity(dto);
+        ProductEntity saved = productRepository.save(product);
         log.info("Product created with id={}", saved.getId());
         return mapper.toDto(saved);
     }

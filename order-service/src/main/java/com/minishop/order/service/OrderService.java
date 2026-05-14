@@ -1,5 +1,4 @@
 package com.minishop.order.service;
-// service/OrderService.java
 
 import com.minishop.order.client.ProductClient;
 import com.minishop.order.dto.CreateOrderRequest;
@@ -29,18 +28,12 @@ public class OrderService {
 
     @Transactional
     public OrderDto create(CreateOrderRequest request) {
-        // 1. Appel synchrone vers product-service
-        //    Si product-service est down → exception → transaction rollback
-        //    C'est le problème fondamental du couplage synchrone
         ProductDto product = productClient.findById(request.productId());
 
-        // 2. Snapshot du prix au moment de la commande
+        // Snapshot du prix au moment de la commande pour figer la valeur facturée.
         BigDecimal unitPrice = product.price();
-        BigDecimal totalPrice = unitPrice.multiply(
-                BigDecimal.valueOf(request.quantity())
-        );
+        BigDecimal totalPrice = unitPrice.multiply(BigDecimal.valueOf(request.quantity()));
 
-        // 3. Création et persistance
         OrderEntity order = OrderEntity.builder()
                 .productId(request.productId())
                 .quantity(request.quantity())

@@ -14,8 +14,6 @@ public class ProductClient {
     private final RestTemplate restTemplate;
     private final String productServiceUrl;
 
-    // @Value injecte la valeur depuis application.properties
-    // Jamais l'URL hardcodée dans le code
     public ProductClient(
             RestTemplate restTemplate,
             @Value("${product.service.url}") String productServiceUrl) {
@@ -35,7 +33,6 @@ public class ProductClient {
         }
     }
 
-    // Exception locale à order-service
     public static class ProductNotFoundException extends RuntimeException {
         public ProductNotFoundException(Long id) {
             super("Product not found: " + id);

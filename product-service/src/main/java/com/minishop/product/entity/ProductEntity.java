@@ -10,14 +10,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.math.BigDecimal;
 
 @Entity
 @Table(name = "product")
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

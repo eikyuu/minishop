@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git pull *)",
+      "Bash(./mvnw clean *)",
+      "Bash(./mvnw dependency:tree -Dincludes=org.flywaydb)",
+      "Bash(./mvnw dependency:tree -Dincludes=org.flywaydb -q)",
+      "Bash(./mvnw dependency:tree)",
+      "Bash(./mvnw spring-boot:run -Dspring-boot.run.arguments=\"--logging.level.org.flywaydb=DEBUG\")",
+      "Bash(./mvnw spring-boot:run -Dspring-boot.run.arguments=\"--debug\")"
+    ]
+  }
+}

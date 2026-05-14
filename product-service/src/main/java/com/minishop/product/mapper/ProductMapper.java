@@ -1,5 +1,6 @@
 package com.minishop.product.mapper;
 
+import com.minishop.product.dto.CreateProductRequest;
 import com.minishop.product.dto.ProductDto;
 import com.minishop.product.entity.ProductEntity;
 import org.mapstruct.Mapper;
@@ -13,5 +14,5 @@ public interface ProductMapper {
     // Il mappe champ par champ par correspondance de nom
     ProductDto toDto(ProductEntity entity);
 
-    ProductEntity toEntity(ProductDto dto);
+    ProductEntity toEntity(CreateProductRequest dto);
 }
