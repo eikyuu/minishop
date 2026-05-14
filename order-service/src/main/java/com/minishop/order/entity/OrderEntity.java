@@ -14,6 +14,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 
 @Entity
@@ -34,6 +35,14 @@ public class OrderEntity {
 
     @Column(nullable = false)
     private Integer quantity;
+
+    // Prix snapshot au moment de la commande — important en entretien !
+    // On ne relit pas le prix depuis product-service à chaque fois
+    @Column(nullable = false)
+    private BigDecimal unitPrice;
+
+    @Column(nullable = false)
+    private BigDecimal totalPrice;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
