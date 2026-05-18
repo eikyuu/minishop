@@ -2,17 +2,13 @@ package com.minishop.product.controller;
 
 import com.minishop.product.dto.CreateProductRequest;
 import com.minishop.product.dto.ProductDto;
+import com.minishop.product.dto.UpdateProductRequest;
 import com.minishop.product.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -37,5 +33,19 @@ public class ProductController {
     public ResponseEntity<ProductDto> create(@Valid @RequestBody CreateProductRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(productService.create(request));
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<ProductDto> update(
+            @PathVariable Long id,
+            @Valid @RequestBody UpdateProductRequest request) {
+        return ResponseEntity.ok(productService.update(id, request));
+    }
+
+    // @PathVariable avec contrainte : @Positive directement sur le paramètre
+    // Nécessite @Validated au niveau classe (pas @Valid)
+    @GetMapping("/{id}")
+    public ResponseEntity<ProductDto> findById(@PathVariable Long id) {
+        return ResponseEntity.ok(productService.findById(id));
     }
 }
